@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "start:web": "cd apps/web && npx ng serve",
+    "start:api": "cd apps/api && mvn spring-boot:run",
+    "build:web": "cd apps/web && npx ng build",
+    "build:api": "cd apps/api && mvn clean package",
+    "build": "npm run build:web && npm run build:api",
+    "test:web": "cd apps/web && npx ng test --watch=false",
+    "test:api": "cd apps/api && mvn test"
+  }
+}

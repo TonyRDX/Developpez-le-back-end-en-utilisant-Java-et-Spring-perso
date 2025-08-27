@@ -1,16 +1,19 @@
 package com.openclassrooms.P3.controllers;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.openclassrooms.P3.model.Rental;
-import com.openclassrooms.P3.services.RentalService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+import com.openclassrooms.P3.model.Rental;
+import com.openclassrooms.P3.services.RentalService;
+
 
 @RestController
 public class RentalContoller {
@@ -57,7 +60,7 @@ public class RentalContoller {
         )
     )
     @Operation(summary = "Rentals list", description = "Returns all rental")
-    public Iterable<Rental> getAllRentals() {
-        return this.rentalService.getAllEmployees();
+    public Map<String, List<Rental>> getAllRentals() {
+        return Map.of("rentals", this.rentalService.getAllEmployees());
     }
 }

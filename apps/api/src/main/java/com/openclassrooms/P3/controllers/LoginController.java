@@ -2,6 +2,11 @@ package com.openclassrooms.P3.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.openclassrooms.P3.services.JWTService;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PostMapping;
+import java.util.Map;
+
 
 @RestController
 public class LoginController {
@@ -16,4 +21,15 @@ public class LoginController {
         return "Welcome, Admin";
     }
     
+    private final JWTService jwtService;
+
+    public LoginController(JWTService jwtService) {
+        this.jwtService = jwtService;
+    }
+
+    @PostMapping("/auth/login")
+    public Map<String, String> login(Authentication authentication) {
+        String token = jwtService.generateToken(authentication);
+        return Map.of("token", token);
+    }
 }

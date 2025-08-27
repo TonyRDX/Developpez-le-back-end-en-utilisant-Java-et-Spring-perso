@@ -2,10 +2,11 @@ package com.openclassrooms.P3.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.openclassrooms.P3.services.JWTService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.util.Map;
+
+import com.openclassrooms.P3.services.JWTService;
 
 
 @RestController

@@ -2,7 +2,8 @@ package com.openclassrooms.P3.controllers;
 
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
+import com.openclassrooms.P3.dtos.RentalDto;
 import com.openclassrooms.P3.model.Rental;
 import com.openclassrooms.P3.services.RentalService;
 
@@ -19,6 +21,17 @@ import com.openclassrooms.P3.services.RentalService;
 public class RentalContoller {
     @Autowired
     private RentalService rentalService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    private RentalDto convertToDto(Rental rental) {
+        return modelMapper.map(rental, RentalDto.class);
+    }
+
+    private Rental convertToEntity(RentalDto rentalDto) {
+        return modelMapper.map(rentalDto, Rental.class);
+    }
 
     @GetMapping("/api/rentals")
     @ApiResponse(
@@ -60,7 +73,13 @@ public class RentalContoller {
         )
     )
     @Operation(summary = "Rentals list", description = "Returns all rental")
-    public Map<String, List<Rental>> getAllRentals() {
-        return Map.of("rentals", this.rentalService.getAllEmployees());
+    public Map<String, List<RentalDto>> getAllRentals() {
+        return Map.of(
+            "rentals",
+            this.rentalService.getAllRentals(0, 100, "asc", "id")
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList())
+        );
     }
 }

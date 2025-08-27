@@ -8,7 +8,6 @@ import java.util.Map;
 
 import com.openclassrooms.P3.services.JWTService;
 
-
 @RestController
 public class LoginController {
 

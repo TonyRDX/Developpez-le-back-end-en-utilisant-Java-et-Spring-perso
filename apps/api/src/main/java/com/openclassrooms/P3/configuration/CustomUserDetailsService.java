@@ -11,16 +11,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.P3.repository.DBUserRepository;
+import com.openclassrooms.P3.repository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
-    private DBUserRepository dbUserRepository;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.openclassrooms.P3.model.User user = dbUserRepository.findByName(username);
+        com.openclassrooms.P3.model.User user = userRepository.findByName(username);
         
         return new User(user.getName(), user.getPassword(), getGrantedAuthorities(user.getRole()));
     }

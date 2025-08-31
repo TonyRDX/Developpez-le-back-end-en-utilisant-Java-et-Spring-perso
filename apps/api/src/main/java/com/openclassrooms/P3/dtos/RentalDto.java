@@ -1,30 +1,16 @@
 package com.openclassrooms.P3.dtos;
 
 import java.time.LocalDateTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 public class RentalDto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String name;
     private Double surface;
     private Double price;
     private String picture;
     private String description;
-
-    @Column(name = "owner_id")
     private Integer ownerId;
-
-    @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     public void setId(Integer id) {

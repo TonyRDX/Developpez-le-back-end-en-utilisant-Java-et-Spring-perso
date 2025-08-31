@@ -10,7 +10,7 @@ public class RentalDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String name;
     private Double surface;
@@ -19,7 +19,7 @@ public class RentalDto {
     private String description;
 
     @Column(name = "owner_id")
-    private Long ownerId;
+    private Integer ownerId;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -27,7 +27,7 @@ public class RentalDto {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -51,7 +51,7 @@ public class RentalDto {
         this.description = description;
     }
 
-    public void setOwnerId(Long ownerId) {
+    public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -63,7 +63,7 @@ public class RentalDto {
         this.updatedAt = updatedAt;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -87,7 +87,7 @@ public class RentalDto {
         return description;
     }
 
-    public Long getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 

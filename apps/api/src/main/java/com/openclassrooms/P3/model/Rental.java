@@ -1,6 +1,7 @@
 package com.openclassrooms.P3.model;
 
 import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +15,7 @@ public class Rental {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String name;
     private Double surface;
@@ -23,7 +24,7 @@ public class Rental {
     private String description;
 
     @Column(name = "owner_id")
-    private Long ownerId;
+    private Integer ownerId;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -31,7 +32,7 @@ public class Rental {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -55,7 +56,7 @@ public class Rental {
         return description;
     }
 
-    public Long getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 
@@ -65,5 +66,21 @@ public class Rental {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurface(Double surface) {
+        this.surface = surface;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

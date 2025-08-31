@@ -2,10 +2,20 @@ package com.openclassrooms.P3.controllers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,11 +23,12 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import com.openclassrooms.P3.dtos.RentalDto;
+import com.openclassrooms.P3.dtos.UpdateRentalDto;
 import com.openclassrooms.P3.model.Rental;
 import com.openclassrooms.P3.services.RentalService;
 
-
 @RestController
+@RequestMapping("/api/rentals")
 public class RentalContoller {
     @Autowired
     private RentalService rentalService;
@@ -33,7 +44,6 @@ public class RentalContoller {
         return modelMapper.map(rentalDto, Rental.class);
     }
 
-    @GetMapping("/api/rentals")
     @ApiResponse(
         responseCode = "200", 
         description = "Get all rentals", 
@@ -73,6 +83,7 @@ public class RentalContoller {
         )
     )
     @Operation(summary = "Rentals list", description = "Returns all rental")
+    @GetMapping
     public Map<String, List<RentalDto>> getAllRentals() {
         return Map.of(
             "rentals",
@@ -82,4 +93,19 @@ public class RentalContoller {
                 .collect(Collectors.toList())
         );
     }
-}
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> putRental(@PathVariable Integer id, @ModelAttribute UpdateRentalDto updateRentalDto, @AuthenticationPrincipal Jwt jwt) {
+        try {
+            Integer currentUserId = Integer.parseInt(jwt.getSubject());
+
+            Rental rentalToUpdate = this.rentalService.updateRental(updateRentalDto, currentUserId);
+            RentalDto updated = this.convertToDto(rentalToUpdate);
+            return ResponseEntity.ok(updated);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Rental not found (wrong id).");
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You can edit only Rental you own.");
+        }
+    }
+} 

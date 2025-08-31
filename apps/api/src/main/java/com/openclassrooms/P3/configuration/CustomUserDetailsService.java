@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         com.openclassrooms.P3.model.User user = userRepository.findByName(username);
         
-        return new User(user.getName(), user.getPassword(), getGrantedAuthorities(user.getRole()));
+        return new User(user.getId().toString(), user.getPassword(), getGrantedAuthorities(user.getRole()));
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(String role) {

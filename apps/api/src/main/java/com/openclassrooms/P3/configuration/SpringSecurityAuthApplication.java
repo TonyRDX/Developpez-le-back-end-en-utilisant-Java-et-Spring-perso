@@ -48,15 +48,15 @@ public class SpringSecurityAuthApplication {
             .build();
     }
 
-public JwtAuthenticationConverter jwtAuthenticationConverter() {
-    var gac = new JwtGrantedAuthoritiesConverter();
-    gac.setAuthoritiesClaimName("roles");  
-    gac.setAuthorityPrefix("");           
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        var gac = new JwtGrantedAuthoritiesConverter();
+        gac.setAuthoritiesClaimName("roles");  
+        gac.setAuthorityPrefix("");           
 
-    var converter = new JwtAuthenticationConverter();
-    converter.setJwtGrantedAuthoritiesConverter(gac);
-    return converter;
-}
+        var converter = new JwtAuthenticationConverter();
+        converter.setJwtGrantedAuthoritiesConverter(gac);
+        return converter;
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

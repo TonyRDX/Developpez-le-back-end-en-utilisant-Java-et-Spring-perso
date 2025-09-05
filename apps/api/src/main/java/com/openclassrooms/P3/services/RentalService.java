@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.openclassrooms.P3.beans.UserContext;
+import com.openclassrooms.P3.dtos.CreateRentalDto;
 import com.openclassrooms.P3.dtos.RentalDto;
 import com.openclassrooms.P3.dtos.UpdateRentalDto;
 import com.openclassrooms.P3.model.Rental;
+import com.openclassrooms.P3.model.User;
 import com.openclassrooms.P3.repository.RentalRepository;
+import com.openclassrooms.P3.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -24,6 +27,9 @@ import jakarta.persistence.EntityNotFoundException;
 public class RentalService {
     @Autowired
     private RentalRepository rentalRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -40,7 +46,7 @@ public class RentalService {
 
     public Rental updateRental(UpdateRentalDto updateRentalDto) throws NoSuchElementException {
         Rental persistedRental = rentalRepository.findById(updateRentalDto.getId()).orElseThrow();
-        if ((int) persistedRental.getOwnerId() != this.userContext.getUserId()) {
+        if ((int) persistedRental.getOwner().getId() != this.userContext.getUserId()) {
             throw new AccessDeniedException(null);
         }
         modelMapper.map(updateRentalDto, persistedRental);
@@ -53,5 +59,15 @@ public class RentalService {
     public RentalDto getById(Integer id) {
         Rental rental = rentalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Rental not found"));
         return modelMapper.map(rental, RentalDto.class);
+    }
+
+    public RentalDto create(CreateRentalDto createRentalDto) {
+        Rental newRental = modelMapper.map(createRentalDto, Rental.class);
+
+        User user = userRepository.getReferenceById(this.userContext.getUserId());
+        newRental.setOwner(user);
+        
+        rentalRepository.save(newRental);
+        return modelMapper.map(newRental, RentalDto.class);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
+import com.openclassrooms.P3.dtos.CreateRentalDto;
 import com.openclassrooms.P3.dtos.RentalDto;
 import com.openclassrooms.P3.dtos.UpdateRentalDto;
 import com.openclassrooms.P3.model.Rental;
@@ -110,5 +112,11 @@ public class RentalContoller {
     @GetMapping("/{rentalId}")
     public ResponseEntity<RentalDto> getOneRental(@PathVariable Integer rentalId) {
         return ResponseEntity.ok(this.rentalService.getById(rentalId));
+    }
+
+    @Operation(summary = "Create a new rental", description = "Returns the rental new rental once created")
+    @PostMapping
+    public ResponseEntity<RentalDto> create(@ModelAttribute CreateRentalDto createRentalDto) {
+        return ResponseEntity.ok(this.rentalService.create(createRentalDto));
     }
 } 

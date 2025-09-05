@@ -51,7 +51,7 @@ public class RentalService {
         }
         modelMapper.map(updateRentalDto, persistedRental);
 
-        rentalRepository.save(persistedRental);
+        rentalRepository.save(persistedRental); // TODO ajouter updatedAt
         return persistedRental;
     }
 
@@ -66,8 +66,8 @@ public class RentalService {
 
         User user = userRepository.getReferenceById(this.userContext.getUserId());
         newRental.setOwner(user);
-        
-        rentalRepository.save(newRental);
+
+        rentalRepository.save(newRental); // TODO ajouter createdAt
         return modelMapper.map(newRental, RentalDto.class);
     }
 }

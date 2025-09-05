@@ -2,6 +2,8 @@ package com.openclassrooms.P3.services;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,10 +11,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.openclassrooms.P3.dtos.RentalDto;
 import com.openclassrooms.P3.dtos.UpdateRentalDto;
 import com.openclassrooms.P3.model.Rental;
 import com.openclassrooms.P3.repository.RentalRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class RentalService {
@@ -38,5 +44,11 @@ public class RentalService {
 
         rentalRepository.save(persistedRental);
         return persistedRental;
+    }
+
+    @Transactional(readOnly = true)
+    public RentalDto getById(Integer id) {
+        Rental rental = rentalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Rental not found"));
+        return modelMapper.map(rental, RentalDto.class);
     }
 }

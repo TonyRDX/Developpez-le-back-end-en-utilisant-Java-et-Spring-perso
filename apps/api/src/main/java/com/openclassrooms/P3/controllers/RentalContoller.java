@@ -21,11 +21,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.persistence.EntityManager;
 
 import com.openclassrooms.P3.dtos.RentalDto;
 import com.openclassrooms.P3.dtos.UpdateRentalDto;
 import com.openclassrooms.P3.model.Rental;
+import com.openclassrooms.P3.services.RentalPathVar;
 import com.openclassrooms.P3.services.RentalService;
+
+import org.hibernate.Session;
+import org.hibernate.engine.spi.SessionImplementor;
 
 @RestController
 @RequestMapping("/api/rentals")
@@ -97,6 +102,7 @@ public class RentalContoller {
     @PutMapping("/{id}")
     public ResponseEntity<?> putRental(@PathVariable Integer id, @ModelAttribute UpdateRentalDto updateRentalDto, @AuthenticationPrincipal Jwt jwt) {
         try {
+            // TODO utiliser un argument resolver
             Integer currentUserId = Integer.parseInt(jwt.getSubject());
 
             Rental rentalToUpdate = this.rentalService.updateRental(updateRentalDto, currentUserId);
@@ -107,5 +113,12 @@ public class RentalContoller {
         } catch (AccessDeniedException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You can edit only Rental you own.");
         }
+    }
+
+    // TODO explain imperative vs declarative, and meta programming approach
+    @Operation(summary = "Get one rental", description = "Returns the rental matching by id")
+    @GetMapping("/{rental}")
+    public ResponseEntity<RentalDto> getOneRental(@RentalPathVar("rental") RentalDto rental) {
+        return ResponseEntity.ok(rental); // TODO appeler le service directement plutôt que argumentresolver
     }
 } 

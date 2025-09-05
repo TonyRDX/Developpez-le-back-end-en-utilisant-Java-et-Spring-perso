@@ -1,0 +1,10 @@
+package com.openclassrooms.P3.services;
+
+import java.lang.annotation.*;
+
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface RentalPathVar {
+    String value();
+}

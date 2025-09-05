@@ -107,8 +107,8 @@ public class RentalContoller {
 
     // TODO explain imperative vs declarative, meta programming approach, or cross cutting concerns
     @Operation(summary = "Get one rental", description = "Returns the rental matching by id")
-    @GetMapping("/{rental}")
-    public ResponseEntity<RentalDto> getOneRental(RentalDto rental) {
-        return ResponseEntity.ok(rental); // TODO appeler le service directement plutôt que argumentresolver
+    @GetMapping("/{rentalId}")
+    public ResponseEntity<RentalDto> getOneRental(@PathVariable Integer rentalId) {
+        return ResponseEntity.ok(this.rentalService.getById(rentalId));
     }
 } 

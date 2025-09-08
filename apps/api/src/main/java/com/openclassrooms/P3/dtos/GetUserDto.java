@@ -4,7 +4,8 @@ public class GetUserDto {
     private Integer id;
     private String email;
     private String name;
-    private String role;
+    private String createdAt; // TODO implements
+    private String updatedAt;
 
     public Integer getId() {
         return id;
@@ -23,12 +24,6 @@ public class GetUserDto {
     }
     public void setName(String name) {
         this.name = name;
-    }
-    public String getRole() {
-        return role;
-    }
-    public void setRole(String role) {
-        this.role = role;
     }
 
     

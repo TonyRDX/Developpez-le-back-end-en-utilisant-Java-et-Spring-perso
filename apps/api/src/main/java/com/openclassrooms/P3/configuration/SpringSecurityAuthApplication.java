@@ -37,9 +37,10 @@ public class SpringSecurityAuthApplication {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/login").permitAll()
-                .requestMatchers("/admin").hasRole("ADMIN")
-                .requestMatchers("/user").hasRole("USER")
+                .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/auth/register").permitAll()
+                .requestMatchers("/api/auth/admin").hasRole("ADMIN")
+                .requestMatchers("/api/auth/user").hasRole("USER")
                 .anyRequest().authenticated()
             )
             .httpBasic(Customizer.withDefaults())

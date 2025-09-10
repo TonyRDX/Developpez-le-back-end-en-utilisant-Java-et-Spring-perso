@@ -85,6 +85,7 @@ public class RentalContoller {
     @Operation(summary = "Rentals list", description = "Returns all rental")
     @GetMapping
     public Map<String, List<RentalDto>> getAllRentals() {
+        // TODO check if paging is useful. Now it is used as example
         return Map.of(
             "rentals",
             this.rentalService.getAllRentals(0, 100, "asc", "id")
@@ -111,12 +112,14 @@ public class RentalContoller {
     @Operation(summary = "Get one rental", description = "Returns the rental matching by id")
     @GetMapping("/{rentalId}")
     public ResponseEntity<RentalDto> getOneRental(@PathVariable Integer rentalId) {
-        return ResponseEntity.ok(this.rentalService.getById(rentalId));
+        Rental rental = this.rentalService.getById(rentalId);
+        return ResponseEntity.ok(modelMapper.map(rental, RentalDto.class));
     }
 
     @Operation(summary = "Create a new rental", description = "Returns the rental new rental once created")
     @PostMapping
     public ResponseEntity<RentalDto> create(@ModelAttribute CreateRentalDto createRentalDto) {
-        return ResponseEntity.ok(this.rentalService.create(createRentalDto));
+        Rental rental = this.rentalService.create(createRentalDto);
+        return ResponseEntity.ok(modelMapper.map(rental, RentalDto.class));
     }
 } 

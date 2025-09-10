@@ -14,14 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.openclassrooms.P3.beans.UserContext;
 import com.openclassrooms.P3.dtos.CreateRentalDto;
-import com.openclassrooms.P3.dtos.RentalDto;
 import com.openclassrooms.P3.dtos.UpdateRentalDto;
 import com.openclassrooms.P3.model.Rental;
 import com.openclassrooms.P3.model.User;
 import com.openclassrooms.P3.repository.RentalRepository;
 import com.openclassrooms.P3.repository.UserRepository;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class RentalService {
@@ -51,23 +48,22 @@ public class RentalService {
         }
         modelMapper.map(updateRentalDto, persistedRental);
 
-        rentalRepository.save(persistedRental); // TODO ajouter updatedAt
+        rentalRepository.save(persistedRental);
         return persistedRental;
     }
 
     @Transactional(readOnly = true)
-    public RentalDto getById(Integer id) {
-        Rental rental = rentalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Rental not found"));
-        return modelMapper.map(rental, RentalDto.class);
+    public Rental getById(Integer id) {
+        return rentalRepository.getById(id);
     }
 
-    public RentalDto create(CreateRentalDto createRentalDto) {
+    public Rental create(CreateRentalDto createRentalDto) {
         Rental newRental = modelMapper.map(createRentalDto, Rental.class);
 
         User user = userRepository.getReferenceById(this.userContext.getUserId());
         newRental.setOwner(user);
 
-        rentalRepository.save(newRental); // TODO ajouter createdAt
-        return modelMapper.map(newRental, RentalDto.class);
+        rentalRepository.saveAndFlush(newRental);
+        return newRental;
     }
 }

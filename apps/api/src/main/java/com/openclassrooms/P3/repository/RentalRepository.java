@@ -7,4 +7,5 @@ import com.openclassrooms.P3.model.Rental;
 
 @Repository
 public interface RentalRepository extends JpaRepository<Rental, Integer>{
+    public Rental getById(Integer id);
 }

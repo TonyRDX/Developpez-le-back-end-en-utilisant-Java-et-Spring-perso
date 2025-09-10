@@ -1,6 +1,8 @@
 package com.openclassrooms.P3.dtos;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class RentalDto {
     private Integer id;
@@ -10,8 +12,11 @@ public class RentalDto {
     private String picture;
     private String description;
     private Integer ownerId;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
+    
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+                                    .withZone(ZoneId.systemDefault());
 
     public void setId(Integer id) {
         this.id = id;
@@ -41,11 +46,11 @@ public class RentalDto {
         this.ownerId = ownerId;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -77,11 +82,11 @@ public class RentalDto {
         return ownerId;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public String getCreatedAt() {
+        return formatter.format(createdAt);
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public String getUpdatedAt() {
+        return  formatter.format(updatedAt);
     }
 }

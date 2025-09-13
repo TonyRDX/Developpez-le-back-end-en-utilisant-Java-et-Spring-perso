@@ -40,6 +40,11 @@ public class SpringSecurityAuthApplication {
                 .requestMatchers("/api/auth/login").permitAll()
                 .requestMatchers("/api/images/**").permitAll()
                 .requestMatchers("/api/auth/register").permitAll()
+                .requestMatchers(
+                    "/v3/api-docs/**",
+                    "/v3/api-docs",
+                    "/swagger-ui.html",
+                    "/swagger-ui/**").permitAll()
                 .requestMatchers("/api/auth/admin").hasRole("ADMIN")
                 .requestMatchers("/api/auth/user").hasRole("USER")
                 .anyRequest().authenticated()

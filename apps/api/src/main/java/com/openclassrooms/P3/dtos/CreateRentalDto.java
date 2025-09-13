@@ -46,6 +46,10 @@ public class CreateRentalDto {
         return picture.getOriginalFilename();
     }
 
+    public MultipartFile getPictureFile() {
+        return this.picture;
+    }
+
     public String getDescription() {
         return description;
     }

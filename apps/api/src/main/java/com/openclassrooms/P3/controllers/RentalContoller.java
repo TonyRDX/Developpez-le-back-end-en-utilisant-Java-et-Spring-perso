@@ -1,5 +1,6 @@
 package com.openclassrooms.P3.controllers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -118,7 +119,7 @@ public class RentalContoller {
 
     @Operation(summary = "Create a new rental", description = "Returns the rental new rental once created")
     @PostMapping
-    public ResponseEntity<RentalDto> create(@ModelAttribute CreateRentalDto createRentalDto) {
+    public ResponseEntity<RentalDto> create(@ModelAttribute CreateRentalDto createRentalDto) throws IOException {
         Rental rental = this.rentalService.create(createRentalDto);
         return ResponseEntity.ok(modelMapper.map(rental, RentalDto.class));
     }

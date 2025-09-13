@@ -38,6 +38,7 @@ public class SpringSecurityAuthApplication {
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/images/**").permitAll()
                 .requestMatchers("/api/auth/register").permitAll()
                 .requestMatchers("/api/auth/admin").hasRole("ADMIN")
                 .requestMatchers("/api/auth/user").hasRole("USER")

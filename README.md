@@ -1,5 +1,5 @@
 # Project breakdown
-The repository is splitted in 2 part : the api backend (java spring boot) and the headless frontend (angular)
+The repository is splitted in 2 part : the api backend (java 17 with spring boot) and the headless frontend (angular)
 
 # Prerequisites
 Follow the web app README
@@ -11,3 +11,6 @@ You can use those command there, or the specific one from each app.
 
 # Application setup
 Application and database connection settings are under /apps/api/src/main/tesources/application.properties
+
+# Swagger
+When back is running, find swagger url under http://localhost:8080/swagger-ui/index.html

@@ -50,12 +50,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public Map<String, String> register(@Valid @RequestBody RegisterRequest req) {
-        // try {
-            userService.register(req.getEmail(), req.getName(), req.getPassword());
-        // } catch (Exception e) {
-        //     return Map.of("token", e.getMessage());
-        // }
-
+        userService.register(req.getEmail(), req.getName(), req.getPassword());
         return Map.of("token", this.getToken(req.getEmail(), req.getPassword()));
     }
 

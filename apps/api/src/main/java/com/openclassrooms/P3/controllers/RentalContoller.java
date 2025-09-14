@@ -109,7 +109,6 @@ public class RentalContoller {
         }
     }
 
-    // TODO explain imperative vs declarative, meta programming approach, or cross cutting concerns
     @Operation(summary = "Get one rental", description = "Returns the rental matching by id")
     @GetMapping("/{rentalId}")
     public ResponseEntity<RentalDto> getOneRental(@PathVariable Integer rentalId) {
